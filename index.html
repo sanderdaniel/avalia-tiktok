@@ -221,7 +221,7 @@
     document.getElementById('access-btn').addEventListener('click', function () {
       var email = document.getElementById('user-email').value.trim();
       var qs    = window.location.search || '';
-      var dest  = 'quiz.html' + (qs || '');
+      var dest  = 'quiz' + (qs || '');
       window.location.href = dest;
     });
   </script>
