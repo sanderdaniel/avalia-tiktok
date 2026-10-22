@@ -19,11 +19,11 @@
 
 const CONFIG = {
   // ⚠️ Troque pelo seu domínio de saída (exit intent)
-  EXIT_URL: 'https://ambienteeonline.org.ua/c/87861a1c97',
+  EXIT_URL: 'https://seguropagamentos.com.br/tiktokoferta',
 
   // ⚠️ Troque pelo link da sua oferta principal (botão DESBLOQUEAR)
-  OFFER_URL: 'https://ambienteeonline.org.ua/c/87861a1c97',
+  OFFER_URL: 'https://seguropagamentos.com.br/tiktokoferta',
 
   // ⚠️ Link da upsell — configure como "página de obrigado" na sua plataforma de pagamento
-  UPSELL_URL: 'https://ambienteeonline.org.ua/c/c478f99d5c',
+  UPSELL_URL: 'https://seguropagamentos.com.br/taxatransferencia',
 };
